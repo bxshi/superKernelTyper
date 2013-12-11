@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+        <!-- This page is inspired by http://www.webtwt.com/new/hackertyper/ and the render code is also written by Simone Masiero. -->
+<html>
+<head>
+    <title>Super Kernel Typer</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+
+<script>
+    const linuxUrl = "https://api.github.com/search/code?q=c+in:file+language:c+repo:torvalds/linux";
+    var run = function(){
+        $.get(linuxUrl, function(data){
+            console.log(data.items[parseInt(Math.random()*100 % 30)]);
+            var codeFile = data.items[parseInt(Math.random()*100 % 30)].html_url
+                    .replace("/blob/","/")
+                    .replace("github.com","rawgithub.com")
+                    .replace("https","http");
+            console.log(codeFile);
+            $.getScript("./script.js",function(){
+                Typer.speed = 3;
+                Typer.file = codeFile;
+                Typer.init();
+            });
+        });
+    };
+    window.onload = run;
+</script>
+
+<div id='console'></div>
+
+
+</body>
+</html>
